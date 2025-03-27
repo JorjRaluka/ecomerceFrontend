@@ -1,0 +1,8 @@
+.cart{
+  display:flex;
+}
+.cart-area.d-n {
+  display: flex !important; /* Force display if hidden */
+  justify-content: center !important;
+  align-items: center !important;
+}

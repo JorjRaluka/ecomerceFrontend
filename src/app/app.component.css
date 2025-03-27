@@ -1,0 +1,8 @@
+.container{
+  display:flex;
+}
+
+::ng-deep app-cart-status {
+  display:flex !important;
+}
+

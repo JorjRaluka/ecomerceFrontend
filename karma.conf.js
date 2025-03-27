@@ -4,13 +4,14 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['mocha', 'chai'],
     plugins: [
-      require('karma-jasmine'),
+      require('karma-mocha'),
+      require('karma-chai'),
       require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter'),
+      require('karma-webpack'),
+      require('karma-sourcemap-loader'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
       jasmine: {

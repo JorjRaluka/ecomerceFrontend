@@ -1,0 +1,32 @@
+.security-btn
+ {
+  height: 50px;
+  position: relative;
+  min-width: 100px; /* Increased button width */
+  color: #fff;
+  background: #205b8d;
+  border: none;
+  border-radius: 20px; /* Make buttons rounded */
+  padding: 12px 24px; /* Adjusted padding for consistency */
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin: 5px; /* Add spacing between buttons */
+}
+
+
+
+.login-status-header {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  gap: 10px; /* Add spacing between elements */
+  width: 100%; /* Ensure full width for proper centering */
+}
+
+.login-status-user-info{
+  border:10px;
+  text-overflow: ellipsis;
+}
