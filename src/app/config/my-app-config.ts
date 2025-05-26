@@ -1,9 +1,3 @@
-export default{
-  oidc:{
-    clientId:'0oanhmc1csuKqVPQz5d7',
-    issuer:'https://dev-46034227.okta.com/oauth2/default',
-    redirectUri:'https://localhost:4200/login/callback',
-    scopes:['openid','profile','email'],
-    useClassicEngine: true
-  }
-}
+export default {
+  apiBaseUrl: 'http://localhost:8080/api'
+};

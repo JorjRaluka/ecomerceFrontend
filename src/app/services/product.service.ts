@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {map, Observable} from "rxjs";
+import {BehaviorSubject, map, Observable} from "rxjs";
 import {Product} from "../common/product";
 import {ProductCategory} from "../common/product-category";
 import * as process from "process";
@@ -112,6 +112,14 @@ export class ProductService {
   getProduct(theProductId: number):Observable<Product> {
     const productUrl=`${this.baseUrl}/${theProductId}`;
     return this.httpClient.get<Product>(productUrl);
+  }
+
+  // @ts-ignore
+  private productUpdateSubject = new BehaviorSubject<void>(null);
+  productUpdates$ = this.productUpdateSubject.asObservable();
+
+  notifyProductUpdate() {
+    this.productUpdateSubject.next();
   }
 }
 

@@ -9,10 +9,33 @@ import { ProductService } from '../../services/product.service';
 })
 export class ViewChartComponent implements OnInit {
   @ViewChild('doughnutCanvas') doughnutCanvas!: ElementRef;
-
+  chart: any;
   constructor(private productService: ProductService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.productService.productUpdates$.subscribe(() => this.updateChart());
+
+  }
+  async updateChart() {
+    const categoryCounts = await this.productService.getProductCountsPerCategory();
+    const labels = categoryCounts.map(item => item.categoryName);
+    const data = categoryCounts.map(item => item.count);
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart(this.doughnutCanvas.nativeElement.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{ data: data, backgroundColor: this.generateColors(data.length), borderColor: '#fff', borderWidth: 1 }]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+  }
+
+
 
   async ngAfterViewInit() {
     const categoryCounts = await this.productService.getProductCountsPerCategory();

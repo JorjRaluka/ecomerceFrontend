@@ -1,0 +1,21 @@
+.top-bar {
+  position: relative;
+}
+
+.status-container {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  display: flex;
+  gap: 10px;
+  font-size: 0.85rem;
+  align-items: center;
+}
+.online {
+  color: green;
+  font-weight: 600;
+}
+.offline {
+  color: red;
+  font-weight: 600;
+}

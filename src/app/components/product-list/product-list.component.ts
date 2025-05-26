@@ -1,117 +1,150 @@
-import { Component, OnInit } from '@angular/core';
-import {ProductService} from "../../services/product.service";
-import {Product} from "../../common/product";
-import {ActivatedRoute} from "@angular/router";
-import {CartItem} from "../../common/cart-item";
-import {CartService} from "../../services/cart.service";
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { ProductService } from "../../services/product.service";
+import { Product } from "../../common/product";
+import { CartItem } from "../../common/cart-item";
+import { CartService } from "../../services/cart.service";
+import { ActivatedRoute } from "@angular/router";
+import {faker} from "@faker-js/faker";
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list-grid.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit {
-  products:Product[]=[];
-  currentCategoryId: number=1;
-  previousCategoryId:number=1;
-  searchMode:boolean=false;
+export class ProductListComponent implements OnInit, OnDestroy {
 
-  //prop for pagination
-  thePageNumber:number=1;
-  thePageSize:number=5;
-  theTotalElements:number=0;
+  products: Product[] = [];
+  currentCategoryId: number = 1;
+  previousCategoryId: number = 1;
+  searchMode: boolean = false;
+  autoAddInterval: any = null;
 
-  previousKeyword:string="";
+  // Props for pagination
+  thePageNumber: number = 1;
+  thePageSize: number = 1000;
+  theTotalElements: number = 0;
+  previousKeyword: string = "";
 
-  constructor(private productService:ProductService,
-              private route:ActivatedRoute,private cartService:CartService) {
+  isLoading: boolean = false; // Loading state to show loading spinner
 
-  }
+  constructor(private productService: ProductService,
+              private route: ActivatedRoute,
+              private cartService: CartService) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(()=> {
+    this.route.paramMap.subscribe(() => {
       this.listProducts();
     });
+
+    // Listen for scroll events
+    window.addEventListener('scroll', this.onScroll.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('scroll', this.onScroll);
   }
 
   listProducts() {
-    this.searchMode=this.route.snapshot.paramMap.has('keyword');
-
-    if(this.searchMode){
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+    if (this.searchMode) {
       this.handleSearchProducts();
-    }
-    else {
+    } else {
       this.handleListProducts();
     }
   }
 
   handleListProducts() {
-    //check if id param is available;
-    //snapshot-state of route at this given moment in time
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
     if (hasCategoryId) {
-      //get the id param string .convert string to a number using "+"
-      //"!"-tells compiler that the object is not null
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
     } else {
-      //not category id available->default to catg. id 1
-      this.currentCategoryId = 1;
-
+      this.currentCategoryId = 1; // Default to category ID 1
     }
 
-    //Angular will reuse a component if it s currently being viewed
-    if (this.previousCategoryId != this.currentCategoryId) {
+    if (this.previousCategoryId !== this.currentCategoryId) {
       this.thePageNumber = 1;
+      this.products = [];  // Reset products when category changes
     }
+
     this.previousCategoryId = this.currentCategoryId;
-    console.log(`currentCategoryId=${this.currentCategoryId},thePageNumber=${this.thePageNumber}`);
 
-    //get the products for the given cat id
-    this.productService.getProductListPaginate(this.thePageNumber - 1,
-      this.thePageSize,
-      this.currentCategoryId).subscribe(this.processResult());
-
-
+    this.productService.getProductListPaginate(this.thePageNumber - 1, this.thePageSize, this.currentCategoryId)
+      .subscribe(this.processResult());
   }
 
-  handleSearchProducts(){
-    const theKeyword:string=this.route.snapshot.paramMap.get('keyword')!;
-    //search for the products using keyword
-
-
-    if(this.previousKeyword !=theKeyword){
-      this.thePageNumber=1;
+  handleSearchProducts() {
+    const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
+    if (this.previousKeyword !== theKeyword) {
+      this.thePageNumber = 1;
+      this.products = [];  // Reset products when keyword changes
     }
-    this.previousKeyword=theKeyword;
-    console.log(`keyword=${theKeyword},thePageNumber=${this.thePageNumber}`);
+    this.previousKeyword = theKeyword;
 
-    this.productService.searchProductsPaginate(this.thePageNumber-1,
-                                        this.thePageSize,
-                                        theKeyword).subscribe(this.processResult());
-
+    this.productService.searchProductsPaginate(this.thePageNumber - 1, this.thePageSize, theKeyword)
+      .subscribe(this.processResult());
   }
+  // addFakeProduct() {
+  //
+  //   // @ts-ignore
+  //   const fakeProduct: Product = {
+  //     // @ts-ignore
+  //     id: faker.number.int({ min: 1000, max: 9999 }),
+  //     name: faker.commerce.productName(),
+  //     category: faker.commerce.department(),
+  //     price: parseFloat(faker.commerce.price()),
+  //   };
+  //
+  //   this.products.push(fakeProduct);
+  //   console.log('Added product:', fakeProduct);
+  //   this.productService.notifyProductUpdate();
+  // }
 
-  updatePageSize(pageSize:string){
-    this.thePageSize = +pageSize;
-    this.thePageNumber=1;
-    this.listProducts();
-
-  }
-
-  processResult(){
-    return(data:any)=>{
-      this.products=data._embedded.products;
-      this.thePageNumber=data.page.number+1;
-      this.thePageSize=data.page.size;
-      this.theTotalElements=data.page.totalElements;
+  // startAutoAdding() {
+  //   if (!this.autoAddInterval) {
+  //     this.autoAddInterval = setInterval(() => this.addFakeProduct(), 2000); // Add every 2 seconds
+  //   }
+  // }
+  //
+  // stopAutoAdding() {
+  //   if (this.autoAddInterval) {
+  //     clearInterval(this.autoAddInterval);
+  //     this.autoAddInterval = null;
+  //   }
+  // }
+  processResult() {
+    return (data: any) => {
+      this.products = [...this.products, ...data._embedded.products];
+      this.thePageNumber = data.page.number + 1;
+      this.thePageSize = data.page.size;
+      this.theTotalElements = data.page.totalElements;
+      this.isLoading = false;  // Reset the loading flag after products are loaded
     };
   }
 
-  addToCart(theProduct:Product){
-    console.log(`Adding to cart: ${theProduct.name},${theProduct.unitPrice}`);
-    const theCartItem=new CartItem(theProduct);
-    this.cartService.addToCart(theCartItem);
-
+  // New function to load more products when scrolling
+  loadMoreProducts() {
+    if (!this.isLoading && (this.thePageNumber * this.thePageSize) < this.theTotalElements) {
+      this.isLoading = true; // Set the flag to prevent multiple requests
+      this.productService.getProductListPaginate(this.thePageNumber, this.thePageSize, this.currentCategoryId)
+        .subscribe(data => {
+          this.products.push(...data._embedded.products);
+          this.thePageNumber++;
+        });
+    }
   }
 
+  // Scroll listener
+  onScroll() {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const documentHeight = document.documentElement.offsetHeight;
+
+    if (scrollPosition >= documentHeight - 50) { // 50px before reaching the bottom
+      this.loadMoreProducts();
+    }
+  }
+
+  addToCart(theProduct: Product) {
+    const theCartItem = new CartItem(theProduct);
+    this.cartService.addToCart(theCartItem);
+  }
 }

@@ -1,0 +1,8 @@
+<div class="status-container">
+  <span [ngClass]="{'online': networkOnline, 'offline': !networkOnline}">
+    🌐 Network: {{ networkOnline ? 'Online' : 'Offline' }}
+  </span>
+  <span [ngClass]="{'online': serverOnline, 'offline': !serverOnline}">
+    🖥 Server: {{ serverOnline ? 'Online' : 'Offline' }}
+  </span>
+</div>
