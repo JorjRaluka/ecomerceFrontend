@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import {environment} from "../../../environments/environment.prod";
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,7 @@ export class RegisterComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
   register() {
-    this.http.post('http://localhost:8080/api/auth/register', this.user, { responseType: 'text' }).subscribe({
+    this.http.post(`${environment.luv2shopApiUrl}/auth/register`, this.user, { responseType: 'text' }).subscribe({
       next: (response: string) => {
         this.message = response;
         this.error = '';

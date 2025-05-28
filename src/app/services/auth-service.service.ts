@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import {environment} from "../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>('http://localhost:8080/api/auth/login', { email, password })
+    return this.http.post<any>(`${environment.luv2shopApiUrl}/auth/login`, { email, password })
       .pipe(
         tap(user => {
           this.saveUser(user);

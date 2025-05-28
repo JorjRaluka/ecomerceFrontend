@@ -5,7 +5,7 @@ import {Country} from "../common/country";
 import {State} from "../common/state";
 
 import {map} from 'rxjs/operators'
-import {environment} from "../../environments/environment";
+import {environment} from "../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'

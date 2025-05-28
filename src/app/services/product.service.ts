@@ -5,7 +5,7 @@ import {Product} from "../common/product";
 import {ProductCategory} from "../common/product-category";
 import * as process from "process";
 import * as child_process from "child_process";
-import {environment} from "../../environments/environment";
+import {environment} from "../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {environment} from "../../../environments/environment.prod";
 
 @Component({
   selector: 'app-admin-controls',
@@ -14,7 +15,7 @@ export class AdminControlsComponent {
 
   generateProducts() {
     this.message = 'Generating...';
-    this.http.post('http://localhost:8080/api/dev/seed-products', {}, { responseType: 'text' })
+    this.http.post(`${environment.luv2shopApiUrl}/dev/seed-products`, {}, { responseType: 'text' })
       .subscribe({
         next: msg => this.message = msg,
         error: err => this.message = 'Failed to generate products.'

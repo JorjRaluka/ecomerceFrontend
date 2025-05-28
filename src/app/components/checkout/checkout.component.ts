@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 import {Order} from "../../common/order";
 import {OrderItem} from "../../common/order-item";
 import {Purchase} from "../../common/purchase";
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../environments/environment.prod";
 import {PaymentInfo} from "../../common/payment-info";
 
 @Component({
