@@ -1,6 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../environments/environment.prod";
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ export class AppComponent {
   constructor(private http: HttpClient) {}
 
   generateFakeProducts() {
-    this.http.post(`${environment.luv2shopApiUrl}/dev/geneerate`, {})
+    this.http.post(`${environment.luv2shopApiUrl}/dev/generate`, {})
       .subscribe({
         next: () => alert('✅ 100K fake products generated.'),
         error: () => alert('❌ Failed to generate fake products.')

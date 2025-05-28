@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import {environment} from "../../environments/environment.prod";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +18,14 @@ export class AuthService {
       .pipe(
         tap(user => {
           this.saveUser(user);
-          this.userSubject.next(user); // 🔁 broadcast update
+          this.userSubject.next(user);
         })
       );
   }
 
   logout(): void {
     sessionStorage.removeItem('user');
-    this.userSubject.next(null); // 🔁 broadcast logout
+    this.userSubject.next(null);
   }
 
   saveUser(user: any): void {
