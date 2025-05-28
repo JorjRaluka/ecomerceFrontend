@@ -26,8 +26,20 @@ import { ProductService } from './services/product.service';
 import { AuthService } from './services/auth-service.service';
 import { RegisterComponent } from './components/register/register.component';
 import { AdminControlsComponent } from './components/admin-controls/admin-controls.component';
+import { AboutComponent } from './components/about/about.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { HelpComponent } from './components/help/help.component';
+
+import { MatCardModule } from '@angular/material/card';
+
+import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 const routes: Routes = [
+  {path:'about',component:AboutComponent},
+  {path:'contact',component:ContactComponent},
+  {path:'help',component:HelpComponent},
   {path:'register',component:RegisterComponent},
   { path: 'average-price', component: AveragePriceComponent },
   { path: 'cart-chart', component: ViewCartChartComponent },
@@ -66,6 +78,9 @@ const routes: Routes = [
     StatusIndicatorComponent,
     RegisterComponent,
     AdminControlsComponent,
+    AboutComponent,
+    ContactComponent,
+    HelpComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,7 +88,11 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     NgbModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatCardModule,
+    MatIconModule,
+    BrowserAnimationsModule,
+    MatExpansionModule
   ],
   providers: [
     ProductService,

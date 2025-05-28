@@ -1,5 +1,30 @@
 <div class="page-wrapper">
 
+  <!-- MOBILE HEADER -->
+  <header class="header-mobile d-block d-lg-none">
+    <div class="header-mobile-bar">
+      <div class="header-mobile-inner">
+        <a routerLink="/products">
+          <img src="assets/images/logo.png" alt="luv2shop" class="img-responsive" width="120">
+        </a>
+        <button class="hamburger" (click)="toggleSidebar()">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- SIDEBAR MENU (conditionally shown) -->
+  <aside class="menu-sidebar" *ngIf="showSidebar">
+    <div class="logo">
+      <a routerLink="/products">
+        <img src="assets/images/logo.png" alt="luv2shop" class="img-responsive">
+      </a>
+    </div>
+    <app-product-category-menu></app-product-category-menu>
+  </aside>
+
+
   <!-- MENU SIDEBAR-->
   <aside class="menu-sidebar d-none d-lg-block">
     <div class="logo">
@@ -31,7 +56,6 @@
 
               <app-login-status></app-login-status>
               <app-cart-status></app-cart-status>
-
               <app-admin-controls></app-admin-controls>
               <app-status-indicator></app-status-indicator>
             </div>
@@ -53,9 +77,9 @@
 <!--END PAGE-->
 <footer>
   <ul>
-    <li><a href="#">About Us</a></li>
-    <li><a href="#">Contact Us</a></li>
-    <li><a href="#">Help</a></li>
+    <li><a href="/about">About Us</a></li>
+    <li><a href="/contact">Contact Us</a></li>
+    <li><a href="/help">Help</a></li>
   </ul>
 </footer>
 

@@ -1,0 +1,30 @@
+.help-page {
+  padding: 100px 20px 40px;
+  max-width: 800px;
+  margin: auto;
+  color: #000;
+}
+
+mat-card {
+  background-color: #ffffff !important;
+  color: #000000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+mat-expansion-panel {
+  background-color: #ffffff !important;
+  color: #000000;
+  border-bottom: 1px solid #e0e0e0;
+}
+mat-expansion-panel p {
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+}
+mat-panel-title {
+  color: #000 !important; /* make the header/question text black */
+  font-weight: 500;
+}

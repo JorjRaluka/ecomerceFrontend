@@ -10,6 +10,11 @@ import {environment} from "../environments/environment";
 export class AppComponent {
   title = 'angular-ecommerce';
   constructor(private http: HttpClient) {}
+  showSidebar: boolean = false;
+
+  toggleSidebar() {
+    this.showSidebar = !this.showSidebar;
+  }
 
   generateFakeProducts() {
     this.http.post(`${environment.luv2shopApiUrl}/dev/generate`, {})

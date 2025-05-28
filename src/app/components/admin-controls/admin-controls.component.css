@@ -1,7 +1,15 @@
 .admin-buttons {
   margin-left: 15px;
+  display: flex;
 }
 .btn {
-  border-radius: 12px;
-  font-weight: 500;
+  padding: 6px 12px;
+  margin: 0;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 10000;
+  display: flex;
+  align-items: center;
+  height: 50px;
+
 }
