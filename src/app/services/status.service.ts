@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class StatusService {
   }
 
   private pingServer() {
-    this.http.get('http://localhost:8080/api/status/ping', { responseType: 'text' })
+    this.http.get(`${environment.luv2shopApiUrl}/status/ping`, { responseType: 'text' })
       .pipe(catchError(() => of(null)))
       .subscribe(response => {
         this.serverOnline$.next(response === 'pong');
