@@ -1,5 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../environments/environment.prod";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent {
   constructor(private http: HttpClient) {}
 
   generateFakeProducts() {
-    this.http.post('http://localhost:8080/api/dev/generate', {})
+    this.http.post(`${environment.luv2shopApiUrl}/dev/geneerate`, {})
       .subscribe({
         next: () => alert('✅ 100K fake products generated.'),
         error: () => alert('❌ Failed to generate fake products.')
@@ -20,6 +21,6 @@ export class AppComponent {
 
   @HostListener('window:beforeunload', ['$event'])
   deleteFakeProducts(event: any) {
-    navigator.sendBeacon('http://localhost:8080/api/products/delete-temp');
+    navigator.sendBeacon(`${environment.luv2shopApiUrl}/products/delete-temp`);
   }
 }

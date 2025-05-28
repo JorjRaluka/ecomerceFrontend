@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  luv2shopApiUrl:"https://localhost:9898/api"
+  luv2shopApiUrl: "https://backend-docker-adc6azhaddg2hybd.germanywestcentral-01.azurewebsites.net/api"
 };
 
 /*
