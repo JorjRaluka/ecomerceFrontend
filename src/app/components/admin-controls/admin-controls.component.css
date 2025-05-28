@@ -7,9 +7,17 @@
   margin: 0;
   border-radius: 8px;
   font-size: 14px;
-  line-height: 10000;
+  /*line-height: 1000px;*/
   display: flex;
   align-items: center;
   height: 50px;
 
+}
+
+.generate-btn {
+  color: white; /* Ensure text is visible */
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 6px 12px;
 }
